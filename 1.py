@@ -1,63 +1,77 @@
 import numpy as np
 
-class grafo:
-    __matriz=[]
-    def __init__(self, v,e):
-        self.__V=v
-        self.__E=e
-        self.__n=len(v)
-        self.__matriz=np.zeros((self.__n,self.__n), dtype=int)
+class Grafo:
+    def __init__(self, v, e):
+        self.__V = v
+        self.__E = e
+        self.__n = len(v)
+        self.__matriz = np.zeros((self.__n, self.__n), dtype=int)
 
-        for (v1,v2) in e:
-            i=v.index(v1)
-            j=v.index(v2)
-            self.__matriz[i,j]=1
-            self.__matriz[j,i]=1
-    
+        for (v1, v2) in e:
+            i = self.__V.index(v1)
+            j = self.__V.index(v2)
+            self.__matriz[i, j] = 1
+
     def mostrar(self):
         print(self.__matriz)
 
-    def adyacentes(self,nodo):
-        adyacentes=[]
-        i=self.__V.index(nodo)
-        for j, valor in enumerate(self.__matriz[i]):
-            if valor==1:
-                adyacentes.append(v[j])
+    def adyacentes(self, nodo):
+        adyacentes = []
+        j = self.__V.index(nodo)
+        for i in range(self.__n):
+            if self.__matriz[i, j] == 1:
+                adyacentes.append(self.__V[i])
         return adyacentes
+    
+    def listaCamino(self, nodo):
+        camino = []
+        i = self.__V.index(nodo)
+        for j, valor in enumerate(self.__matriz[i]):
+            if valor == 1:
+                camino.append(self.__V[j])  # Cambié v[j] por self.__V[j]
+        return camino
 
-    def encontrar_camino(self, v1, v5, visitados, camino):
-        visitados.add(v1)
-        camino.append(v1)
-        
-        if v1 == v5:
+    def encontrar_camino(self, u, v, visitados, camino):
+        visitados.add(u)
+        camino.append(u)
+
+        if u == v:
             return camino
-        
-        for nodo in self.adyacentes(v1):
+
+        for nodo in self.listaCamino(u):
             if nodo not in visitados:
-                resultado = self.encontrar_camino(nodo, v5, visitados, camino)
+                resultado = self.encontrar_camino(nodo, v, visitados, camino)
                 if resultado:
                     return resultado
-        
+
         camino.pop()
         return None
-        
-                        
 
 if __name__ == "__main__":
     v = ['v1', 'v2', 'v3', 'v4', 'v5']
     e = [('v1', 'v2'), ('v1', 'v4'), ('v2', 'v5'), ('v3', 'v5'), ('v4', 'v5')]
-    matriz = grafo(v, e)
-    matriz.mostrar()
-    '''nodo = input("Ingresar nodo: ")
-    lista = matriz.adyacentes(nodo)
-    print(f"Nodos adyacentes a {nodo} son: {lista}")'''
-    
-    v1 = input("Ingresar nodo u: ")
-    v5 = input("Ingresar nodo v: ")
-    camino = matriz.encontrar_camino(v1, v5, set(), [])
+    grafo_instancia = Grafo(v, e)
+    grafo_instancia.mostrar()
+    nodo = input("Ingresar nodo: ")
+    lista = grafo_instancia.adyacentes(nodo)
+    print(f"Nodos adyacentes a {nodo} son: {lista}")
+
+    u = input("Ingresar nodo u: ")
+    v = input("Ingresar nodo v: ")
+    camino = grafo_instancia.encontrar_camino(u, v, set(), [])
     if camino:
-        print(f"Camino desde {v1} a {v5}: {camino}")
+        print(f"Camino desde {u} a {v}: {camino}")
     else:
-        print(f"No hay camino desde {v1} a {v5}")
+        print(f"No hay camino desde {u} a {v}")
+
+
+    u = input("Ingresar nodo u: ")
+    v = input("Ingresar nodo v: ")
+    camino = grafo_instancia.encontrar_camino(u, v, set(), [])
+    if camino:
+        print(f"Camino desde {u} a {v}: {camino}")
+    else:
+        print(f"No hay camino desde {u} a {v}")
+
 
 
