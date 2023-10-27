@@ -43,25 +43,42 @@ class Grafo:
                 resultado = self.encontrar_camino(nodo, v, visitados, camino)
                 if resultado:
                     return resultado
+                
+    def es_conexo(self):
+        for i in range(self.__n):
+            for j in range(i + 1, self.__n):
+                u = self.__V[i]
+                v = self.__V[j]
+                camino = self.encontrar_camino(u, v, set(), [])
+                if not camino:
+                    return False
+        
+        return True
 
-        camino.pop()
-        return None
 
 if __name__ == "__main__":
     v = ['v1', 'v2', 'v3', 'v4', 'v5']
     e = [('v1', 'v2'), ('v1', 'v4'), ('v2', 'v5'), ('v3', 'v5'), ('v4', 'v5')]
-    grafo_instancia = Grafo(v, e)
-    grafo_instancia.mostrar()
-    nodo = input("Ingresar nodo: ")
-    lista = grafo_instancia.adyacentes(nodo)
+    grafo = Grafo(v, e)
+    grafo.mostrar()
+    '''nodo = input("Ingresar nodo: ")
+    lista = grafo.adyacentes(nodo)
     print(f"Nodos adyacentes a {nodo} son: {lista}")
 
     u = input("Ingresar nodo u: ")
     v = input("Ingresar nodo v: ")
-    camino = grafo_instancia.encontrar_camino(u, v, set(), [])
+    camino = grafo.encontrar_camino(u, v, set(), [])
     if camino:
         print(f"Camino desde {u} a {v}: {camino}")
     else:
-        print(f"No hay camino desde {u} a {v}")
+        print(f"No hay camino desde {u} a {v}")'''
+
+    conexo = grafo.es_conexo()
+    if conexo:
+        print("El grafo es conexo")
+    else:
+        print("El grafo no es conexo")
+
+
 
 
