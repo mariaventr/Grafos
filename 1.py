@@ -65,13 +65,3 @@ if __name__ == "__main__":
         print(f"No hay camino desde {u} a {v}")
 
 
-    u = input("Ingresar nodo u: ")
-    v = input("Ingresar nodo v: ")
-    camino = grafo_instancia.encontrar_camino(u, v, set(), [])
-    if camino:
-        print(f"Camino desde {u} a {v}: {camino}")
-    else:
-        print(f"No hay camino desde {u} a {v}")
-
-
-
